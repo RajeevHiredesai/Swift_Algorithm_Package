@@ -28,4 +28,34 @@ public enum Algorithm {
         
         return -1
     }
+    
+    //Generic Search in Rotated sorted list
+    //INPUT: [7, 8, 9, 10, 0, 1, 2, 3, 4], Key: 2    OUTPUT: 6
+    //INPUT: [7, 8, 9, 10, 0, 1, 2, 3, 4], Key: 9    OUTPUT: 2
+    //INPUT: [7, 8, 9, 10, 0, 1, 2, 3, 4], Key: 5    OUTPUT: -1
+    public static func rotatedSorted<T: Comparable & Equatable>(list: [T], key: T) -> Int {
+        var low = 0, high = list.count - 1
+        
+        while low <= high {
+            let mid = (low + high)/2
+            
+            if list[mid] == key { return mid }
+            
+            if list[low] <= list[mid] { //Mid falls in Left portion
+                if key > list[mid] || key < list[low] {
+                    low = mid + 1
+                } else {
+                    high = mid - 1
+                }
+            } else { // Mid falls in Right portion
+                if key < list[mid] || key > list[high] {
+                    high = mid - 1
+                } else {
+                    low = mid + 1
+                }
+            }
+        }
+        
+        return -1
+    }
 }
